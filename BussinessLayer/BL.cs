@@ -6,73 +6,72 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer;
+using Entites;
 
 namespace BussinessLayer
 {
     public class BL
     {
-        private string URL = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\abbos\source\repos\WebApplication\DB_Epam.mdf;Integrated Security=True;Connect Timeout=30";
-        private DB db;
-        public BL() {
-            db = new DB(URL);
-        }
+        private const string URL = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\abbos\source\repos\WebApplication\DB_Epam.mdf;Integrated Security=True;Connect Timeout=30";
+        private IUser u = new User(URL);
+        private ISkills s = new Skills(URL);
         public string CreateUser(string Email,string Login,string Password) {
-            if (Email == "" || Login == "" || Password == "") {// Проверка на пустоту на страничке регистрации
-                return "Заполните поля";
-            }
-            db = new DB(URL);
-            db.UserInsert(Email, Login, Password);//
-            return "";
+            return u.CreateUser(Email, Login, Password);
+        }
+        public int GetIDAccount() {
+            return u.session_id; 
         }
         public string EntryAccount(string Login, string Password) {
-            if (Login == "" || Password == ""){// Проверка на пустоту на страничке входа
-                return "Заполните поля";
-            }
-            db = new DB(URL);
-            DataTable table =db.GetProfiles();//Получение всех профилей пользователей
-            foreach(DataRow row in table.Rows) {
-                if (Login == (string)row["Логин"] && Password == (string)row["Пароль"]) {// Поиск по соответствиям
-                    return "";
-                }
-            }
-            return "Неверные данные";//Если система не нашла профиль пользователя на страницу возвращается такая фраза
+            return u.EntryAccount(Login,Password);
         }
-        public List<Skills> GetSkillsUser(string Login)
-        {
-            List<Skills> l = new List<Skills>();
-            db = new DB(URL);
-            DataTable table = db.GetSkill_Id();//Получение таблицы всех навыков, которые добавили пользователи  + с Id пользователя
-            foreach (DataRow row in table.Rows)
-            {
-                if (Login == (string)row["Логин_пользователя"])// Поиск пользователя по таблице
-                {
-                    db = new DB(URL);
-                    DataTable table1 = db.GetSkills((int)row["Id_Навыка"]);// Получение таблицы всех навыков одного пользователя
-                    foreach (DataRow row1 in table1.Rows)
-                    {
-                        db = new DB(URL);
-                        Skills s = new Skills();
-                        s.Name = (string)row1["Название"];
-                        s.Type = db.GetTypeSkill((int)row1["Id_Вида"]).Rows[0]["Название"].ToString();//Получение вида навыка черезе DL
-                        l.Add(s);
-                    }
-                }
-            }
-            return l;// Возвращение списка навыков пользователя
+        public string UpdateLogin(int Id,string Login) {
+            return u.UpdateLogin(Id,Login);
+        }
+        public string GetUserLogin(int Id) {
+            return u.GetUserLogin(Id);
+        }
+        public List<Skills> GetSkillsUser(int Id){
+            return u.GetSkillsUser(Id);
+        }
+        public List<string> GetListTypeSkills(){
+            return s.GetListTypeSkills();
         }
         public List<Skills> GetListSkills() {
-            List<Skills> l = new List<Skills>();
-            db = new DB(URL);
-            DataTable table = db.GetSkills();
-            foreach (DataRow row in table.Rows)
-            {
-                db = new DB(URL);
-                Skills s = new Skills();
-                s.Name = (string)row["Название"];
-                s.Type = db.GetTypeSkill((int)row["Id_Вида"]).Rows[0]["Название"].ToString();//Получение вида навыка черезе DL
-                l.Add(s);
+            return s.GetListSkills();
+        }
+        public void DeleteSkill(string name, string type, int Id){
+            s.DeleteSkill(name,type,Id);
+        }
+        public string AddSkill(string name, string type) {
+            return s.AddSkill(name, type);
+        }
+        public void AddSkillUser(string name, string type,int Id) {
+            u.AddSkillUser(name, type,Id);
+        }
+        public string HtmlListSkill(int Id) {
+            string str = "</br>";
+            int j = 0;
+            int m = 0;
+            for (int i = 0; i < GetListTypeSkills().Count; i++) {
+                str += "<h4>" + GetListTypeSkills()[i]+"</h4><table>";
+                foreach(Skills s in GetListSkills()) {
+                    if(s.Type== GetListTypeSkills()[i]) {
+                        int tmp = str.Length;
+                        foreach (Skills c in GetSkillsUser(Id)) {
+                            if (c.Name == s.Name && s.Type==c.Type) {
+                                str += "<tr><td class=\"Added\">" + s.Name + " (Навык добавлен)<form></form><form method=\"POST\" Action=\"\"><input class=\"Delete\" type=\"submit\" value=\"Удалить\"/><input name=\"Del\" type=\"hidden\" value=\"" + s.Name+ "\"/><input name=\"Type\" type=\"hidden\" value=\"" + s.Type + "\"/></form></td></tr>";
+                                j++;
+                            }
+                        }
+                        if (str.Length == tmp) {
+                            str += "<tr><td>" + s.Name + "<form></form><form method=\"POST\" Action=\"\"><input class=\"Add\"  type=\"submit\" value=\"Добавить\"/><input name=\"Add\" type=\"hidden\" value=\"" + s.Name + "\"/><input name=\"Type\" type=\"hidden\" value=\"" + s.Type + "\"/></form></td></tr>";
+                            m++;
+                        }
+                    }
+                }
+                str +="</table>";
             }
-            return l;
+            return str;
         }
         public static void Main() { }
         
