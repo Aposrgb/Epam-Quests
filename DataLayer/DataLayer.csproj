@@ -44,11 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DB.cs" />
-    <Compile Include="IDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DLInterfaces\DLInterfaces.csproj">
+      <Project>{72edd87d-3e8f-45cf-98d0-c4917dee53d1}</Project>
+      <Name>DLInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
