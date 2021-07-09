@@ -43,8 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISkills.cs" />
-    <Compile Include="IUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="User.cs" />
@@ -53,9 +51,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLInterfaces\BLInterfaces.csproj">
+      <Project>{d45e78e4-c287-4dee-9fad-1e46d942acd2}</Project>
+      <Name>BLInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{50efd658-2bac-4639-85e1-2251f069e3d8}</Project>
       <Name>DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLInterfaces\DLInterfaces.csproj">
+      <Project>{72edd87d-3e8f-45cf-98d0-c4917dee53d1}</Project>
+      <Name>DLInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
