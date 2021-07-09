@@ -1,0 +1,7 @@
+C:\Users\abbos\source\repos\BLInterfaces\obj\Debug\BLInterfaces.csprojAssemblyReference.cache
+C:\Users\abbos\source\repos\BLInterfaces\obj\Debug\BLInterfaces.csproj.CoreCompileInputs.cache
+C:\Users\abbos\source\repos\BLInterfaces\bin\Debug\BLInterfaces.exe.config
+C:\Users\abbos\source\repos\BLInterfaces\bin\Debug\BLInterfaces.exe
+C:\Users\abbos\source\repos\BLInterfaces\bin\Debug\BLInterfaces.pdb
+C:\Users\abbos\source\repos\BLInterfaces\obj\Debug\BLInterfaces.exe
+C:\Users\abbos\source\repos\BLInterfaces\obj\Debug\BLInterfaces.pdb
