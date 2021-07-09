@@ -50,9 +50,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLInterfaces\BLInterfaces.csproj">
+      <Project>{d45e78e4-c287-4dee-9fad-1e46d942acd2}</Project>
+      <Name>BLInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{50efd658-2bac-4639-85e1-2251f069e3d8}</Project>
       <Name>DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DLInterfaces\DLInterfaces.csproj">
+      <Project>{72EDD87D-3E8F-45CF-98D0-C4917DEE53D1}</Project>
+      <Name>DLInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entites\Entites.csproj">
       <Project>{a66beeb1-c461-4c64-8080-8207341691e9}</Project>

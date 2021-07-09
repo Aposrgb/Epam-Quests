@@ -5,21 +5,18 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataLayer;
 using Entites;
+using BLInterfaces;
 
 namespace BussinessLayer
 {
-    public class BL
+    public class BL:IBL
     {
         private const string URL = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\abbos\source\repos\WebApplication\DB_Epam.mdf;Integrated Security=True;Connect Timeout=30";
-        private IUser u = new User(URL);
-        private ISkills s = new Skills(URL);
+        private User u = new User(URL);
+        private Skills s = new Skills(URL);
         public string CreateUser(string Email,string Login,string Password) {
             return u.CreateUser(Email, Login, Password);
-        }
-        public int GetIDAccount() {
-            return u.session_id; 
         }
         public string EntryAccount(string Login, string Password) {
             return u.EntryAccount(Login,Password);
@@ -30,13 +27,13 @@ namespace BussinessLayer
         public string GetUserLogin(int Id) {
             return u.GetUserLogin(Id);
         }
-        public List<Skills> GetSkillsUser(int Id){
+        public List<ISkills> GetSkillsUser(int Id){
             return u.GetSkillsUser(Id);
         }
         public List<string> GetListTypeSkills(){
             return s.GetListTypeSkills();
         }
-        public List<Skills> GetListSkills() {
+        public List<ISkills> GetListSkills() {
             return s.GetListSkills();
         }
         public void DeleteSkill(string name, string type, int Id){
