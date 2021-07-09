@@ -5,27 +5,28 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BussinessLayer;
+using Dependecy;
 
 namespace WebApplication
 {
     public partial class Skill : System.Web.UI.Page
     {
-        private BL b = new BL();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["Id"] == null)
             {
                 Response.Redirect("Login.aspx");
             }
-            Label1.Text = b.HtmlListSkill((int)Session["Id"]);
+            
+            Label1.Text = DependecyResolver.Instance.b.HtmlListSkill((int)Session["Id"]);
             if (!String.IsNullOrEmpty(Request["Add"]))
             {
-                b.AddSkillUser(Request["Add"], Request["Type"],(int)Session["Id"]);
+                DependecyResolver.Instance.b.AddSkillUser(Request["Add"], Request["Type"],(int)Session["Id"]);
                 Response.Redirect("Skill.aspx");
             }
             if (!String.IsNullOrEmpty(Request["Del"]))
             {
-                b.DeleteSkill(Request["Del"], Request["Type"], (int)Session["Id"]);
+                DependecyResolver.Instance.b.DeleteSkill(Request["Del"], Request["Type"], (int)Session["Id"]);
                 Response.Redirect("Skill.aspx");
             }
 
@@ -49,7 +50,7 @@ namespace WebApplication
             }
             else
             {
-                Label4.Text = b.AddSkill(TextBox1.Text,TextBox2.Text);
+                Label4.Text = DependecyResolver.Instance.b.AddSkill(TextBox1.Text,TextBox2.Text);
                 if (Label4.Text != "") {
                     return;
                 }

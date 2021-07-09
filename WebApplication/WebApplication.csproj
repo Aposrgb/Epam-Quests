@@ -116,9 +116,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLInterfaces\BLInterfaces.csproj">
+      <Project>{d45e78e4-c287-4dee-9fad-1e46d942acd2}</Project>
+      <Name>BLInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BussinessLayer\BussinessLayer.csproj">
       <Project>{adc1bb55-4f22-4bba-b46d-e8735073d03f}</Project>
       <Name>BussinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependecy\Dependecy.csproj">
+      <Project>{efd26043-b52c-4955-91b2-57fa8cb3a48a}</Project>
+      <Name>Dependecy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entites\Entites.csproj">
       <Project>{a66beeb1-c461-4c64-8080-8207341691e9}</Project>

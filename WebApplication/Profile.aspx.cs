@@ -5,21 +5,21 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BussinessLayer;
+using Dependecy;
 using Entites;
 
 namespace WebApplication1
 {
     public partial class Profile : System.Web.UI.Page
     {
-        private BL b = new BL();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["Id"] == null)
             {
                 Response.Redirect("Login.aspx");
             }
-            Label1.Text = "Привет " + b.GetUserLogin((int)Session["Id"]);
-            GridView1.DataSource = b.GetSkillsUser((int)Session["Id"]);
+            Label1.Text = "Привет " + DependecyResolver.Instance.b.GetUserLogin((int)Session["Id"]);
+            GridView1.DataSource = DependecyResolver.Instance.b.GetSkillsUser((int)Session["Id"]);
             GridView1.DataBind();
             if (GridView1.Rows.Count == 0)
             {
@@ -42,18 +42,18 @@ namespace WebApplication1
         {
             if (!TextBox1.Visible)
             {
-                TextBox1.Text = b.GetUserLogin((int)Session["Id"]);
+                TextBox1.Text = DependecyResolver.Instance.b.GetUserLogin((int)Session["Id"]);
                 TextBox1.Visible = true;
                 Label1.Visible = false;
                 Button3.Text = "Закончить";
             }
             else
             {
-                Label1.Text = b.UpdateLogin((int)Session["Id"], TextBox1.Text);
+                Label1.Text = DependecyResolver.Instance.b.UpdateLogin((int)Session["Id"], TextBox1.Text);
                 Label1.Visible = true;
                 if (Label1.Text == "")
                 {
-                    Label1.Text = "Привет " + b.GetUserLogin((int)Session["Id"]);
+                    Label1.Text = "Привет " + DependecyResolver.Instance.b.GetUserLogin((int)Session["Id"]);
                     TextBox1.Visible = false;
                     Label1.Visible = true;
                     Button3.Text = "Изменить логин";
