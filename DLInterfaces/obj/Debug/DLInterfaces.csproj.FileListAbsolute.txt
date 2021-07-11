@@ -1,0 +1,7 @@
+C:\Users\abbos\source\repos\DLInterfaces\obj\Debug\DLInterfaces.csprojAssemblyReference.cache
+C:\Users\abbos\source\repos\DLInterfaces\obj\Debug\DLInterfaces.csproj.CoreCompileInputs.cache
+C:\Users\abbos\source\repos\DLInterfaces\bin\Debug\DLInterfaces.exe.config
+C:\Users\abbos\source\repos\DLInterfaces\bin\Debug\DLInterfaces.exe
+C:\Users\abbos\source\repos\DLInterfaces\bin\Debug\DLInterfaces.pdb
+C:\Users\abbos\source\repos\DLInterfaces\obj\Debug\DLInterfaces.exe
+C:\Users\abbos\source\repos\DLInterfaces\obj\Debug\DLInterfaces.pdb
