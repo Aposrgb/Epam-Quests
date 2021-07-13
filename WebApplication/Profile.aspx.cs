@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using BussinessLayer;
 using Dependecy;
-using Entites;
 
 namespace WebApplication1
 {
@@ -19,6 +12,7 @@ namespace WebApplication1
                 Response.Redirect("Login.aspx");
             }
             Label1.Text = "Привет " + DependecyResolver.Instance.b.GetUserLogin((int)Session["Id"]);
+            Label3.Text ="Ваш статус:</br>"+ DependecyResolver.Instance.b.GetStatus((int)Session["Id"]);
             GridView1.DataSource = DependecyResolver.Instance.b.GetSkillsUser((int)Session["Id"]);
             GridView1.DataBind();
             if (GridView1.Rows.Count == 0)
@@ -29,6 +23,7 @@ namespace WebApplication1
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            Session["Role"] = DependecyResolver.Instance.b.GetRole((int)Session["Id"]);
             Response.Redirect("Skill.aspx");
         }
 
@@ -60,6 +55,36 @@ namespace WebApplication1
                 }
 
             }
+        }
+        protected void Button4_Click(object sender, EventArgs e) {
+            if (!TextBox2.Visible)
+            {
+                TextBox2.Visible = true;
+                Button3.Visible = false;
+                Button2.Visible = false;
+                Button5.Visible = true;
+            }
+            else {
+                Label3.Text = DependecyResolver.Instance.b.SetStatus((int)Session["Id"], TextBox2.Text);
+                if (Label3.Text == "") {
+                    Label3.Text = "Ваш статус:</br>" + DependecyResolver.Instance.b.GetStatus((int)Session["Id"]);
+                    Button5.Visible = false;
+                    Button3.Visible = true;
+                    Button2.Visible = true;
+                    TextBox2.Visible = false;
+                }
+            }
+        }
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            Button5.Visible = false;
+            Button3.Visible = true;
+            Button2.Visible = true;
+            TextBox2.Visible = false;
+        }
+        protected void Button6_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ChangePass.aspx");
         }
     }
 }

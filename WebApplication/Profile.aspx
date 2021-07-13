@@ -13,10 +13,15 @@
         
         <div id="root">
              <asp:TextBox ID="TextBox1" runat="server" Visible="false"></asp:TextBox>
-                <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+             </br>
+             <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
+             <asp:TextBox ID="TextBox2" runat="server" Visible="false"></asp:TextBox>
             <div id="LoginTop">
-                <asp:Button ID="Button2" runat="server" Text="Выйти из аккаунта" OnClick="Button2_Click" />
+                
                 <asp:Button ID="Button3" runat="server" Text="Изменить логин" OnClick="Button3_Click"/>
+                <asp:Button ID="Button4" runat="server" Text="Задать статус?" OnClick="Button4_Click"/>
+                <asp:Button ID="Button5" runat="server" Visible="false" Text="Отмена" OnClick="Button5_Click"/>
             </div>
             
             <div>
@@ -27,11 +32,12 @@
                 <asp:GridView ID="GridView1" runat="server">
                 </asp:GridView>
             </div>
-            
-                <asp:Button ID="Button1" runat="server" Text="Страница навыков" OnClick="Button1_Click" />
-            
-
-        </div>
+            <asp:Button ID="Button1" runat="server" Text="Страница навыков" OnClick="Button1_Click" />
+            <div id="LoginTop">
+                <asp:Button ID="Button6" runat="server" Text="Сменить пароль?" OnClick="Button6_Click" />
+                <asp:Button ID="Button2" runat="server" Text="Выйти из аккаунта" OnClick="Button2_Click" />
+            </div>
+           </div>
     </form>
 </body>
 </html>

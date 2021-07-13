@@ -12,9 +12,13 @@
 
     <form id="form1" runat="server">
         <div id="root">
+
+            <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
             <h2>Навыки которые можно добавить</h2>
+            
             <asp:Button ID="Button1" runat="server" Text="Вернутся к профилю" OnClick="Button1_Click" />
             <asp:Button ID="Button2" runat="server" Text="Добавить свои навыки" OnClick="Button2_Click" />
+            <asp:Button ID="Button4" runat="server" Text="Редактирование навыков" OnClick="Button4_Click" />
 
             <asp:Label ID="Label2" runat="server" Text="Название" Visible="false"></asp:Label>
             <asp:TextBox ID="TextBox1" runat="server" Visible="false"></asp:TextBox>

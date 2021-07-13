@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using BussinessLayer;
 using Dependecy;
 
 namespace WebApplication1
@@ -21,7 +15,7 @@ namespace WebApplication1
         protected void Button1_Click(object sender, EventArgs e)//Войти 
         {
             Label4.Text =DependecyResolver.Instance.b.EntryAccount(TextBox1.Text, TextBox2.Text);//Метод вернет строку с фразой при неверных данных и вернет пустоту если все верно
-            if (Label4.Text != "Неверные данные" || Label4.Text != "Заполните поля")// Если нет фразы заполните поля или неверные данные то аутентификация пройдена успешна
+            if (int.TryParse(Label4.Text, out int i))// Если нет фразы заполните поля или неверные данные то аутентификация пройдена успешна
             {
                 Session["Id"] = int.Parse(Label4.Text);// Запоминание Id пользователя в сессии
                 Response.Redirect("Profile.aspx");// Переход к странице регистрации
