@@ -1,12 +1,7 @@
 ﻿using BLInterfaces;
 using BussinessLayer;
 using DataLayer;
-using Entites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Dependecy
 {
@@ -16,8 +11,8 @@ namespace Dependecy
         private static DependecyResolver _instance;
         public static DependecyResolver Instance => _instance = new DependecyResolver();
         #endregion;
-
-        public IBL b = new BL();
-        static void Main(string[] args){}
+        
+        public IDL db = new DB_SQL(ConfigurationManager.ConnectionStrings["DB_EpamConnectionString"].ConnectionString);
+        public IBL b => new BL_SQL(db);
     }
 }
