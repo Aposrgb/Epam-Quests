@@ -1,10 +1,9 @@
 ﻿
-using BLInterfaces;
-
 namespace Entites
 {
-    public class Skills:ISkills_Logic
+    public class Skills
     {
-        public Skills() {}
+        public string Name { get; set; }
+        public string Type { get; set; }
     }
 }
