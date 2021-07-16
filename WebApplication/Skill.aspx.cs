@@ -5,6 +5,8 @@ namespace WebApplication
 {
     public partial class Skill : System.Web.UI.Page
     {
+
+        HtmlHelper helper = new HtmlHelper();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["Id"] == null)
@@ -15,7 +17,7 @@ namespace WebApplication
                 Button4.Visible = false;
             }
             Label5.Text = "<h1>Вы "+(string)Session["Role"]+ "</h1>";
-            Label1.Text = DependecyResolver.Instance.b.HtmlListSkill((int)Session["Id"]);
+            Label1.Text = helper.HtmlListSkill((int)Session["Id"]);
             if (!String.IsNullOrEmpty(Request["Add"]))
             {
                 DependecyResolver.Instance.b.AddSkillUser(Request["Add"], Request["Type"],(int)Session["Id"]);
@@ -26,9 +28,23 @@ namespace WebApplication
                 DependecyResolver.Instance.b.DeleteSkill(Request["Del"], Request["Type"], (int)Session["Id"]);
                 Response.Redirect("Skill.aspx");
             }
+            if (!String.IsNullOrEmpty(Request["Edit"]))
+            {
+                Label1.Text = helper.SetSkillName(Request["DeleteName"], Request["DeleteNameType"], (int)Session["Id"]);
+                return;
+            }
             if (!String.IsNullOrEmpty(Request["DeleteName"]))
             {
                 DependecyResolver.Instance.b.DeleteAllSkill(Request["DeleteName"], Request["DeleteNameType"]);
+                Response.Redirect("Skill.aspx");
+            }
+            if (!String.IsNullOrEmpty(Request["Send"]))
+            {
+                DependecyResolver.Instance.b.UpdateSkillName(Request["New_name"],Request["Name"],Request["NameType"]);
+                Response.Redirect("Skill.aspx");
+            }
+            if (!String.IsNullOrEmpty(Request["Cancel"]))
+            {
                 Response.Redirect("Skill.aspx");
             }
         }
@@ -75,7 +91,7 @@ namespace WebApplication
             if (Button2.Visible)
             {
                 Button2.Visible = false;
-                Label1.Text = DependecyResolver.Instance.b.EditHtmlListSkill((int)Session["Id"]);
+                Label1.Text = helper.EditHtmlListSkill((int)Session["Id"]);
                 Button4.Text = "Закончить редактирование";
             }
             else {
