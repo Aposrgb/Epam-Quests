@@ -1,4 +1,4 @@
-﻿using BLInterfaces;
+﻿
 using Entites;
 using System.Collections.Generic;
 using System.Data;
@@ -14,6 +14,18 @@ namespace DataLayer
         {
             str = url;
             db = new SqlConnection(url);
+        }
+        public void UpdateSkillName(string new_name,string name, string type)
+        {
+            using (db = new SqlConnection(str))
+            {
+                db.Open();
+                SqlCommand c1 = new SqlCommand("Exec UpdateNameSkill @new_name,@name,@type", db);
+                c1.Parameters.Add(new SqlParameter("@name", name));
+                c1.Parameters.Add(new SqlParameter("@type", type));
+                c1.Parameters.Add(new SqlParameter("@new_name", new_name));
+                c1.ExecuteNonQuery();
+            }
         }
         public string DeleteAllSkill(string name, string type) {
             using (db = new SqlConnection(str))
@@ -32,10 +44,10 @@ namespace DataLayer
                 int Id_temp=-1;
                 int Id_typeskill=0;
                 foreach (DataRow row in GetTypeSkill().Rows) {
-                    if ((string)row["Название"] == type) {
+                    if ((string)row["Name"] == type) {
                         Id_typeskill = (int)row["Id"];
                         foreach (DataRow rows in GetSkills().Rows) {
-                            if ((int)row["Id"] == (int)rows["Id_Вида"]) {
+                            if ((int)row["Id"] == (int)rows["Id_Type"]) {
                                 Id_temp = (int)row["Id"];
                             }
                         }
@@ -60,14 +72,14 @@ namespace DataLayer
                 SqlDataAdapter ad = new SqlDataAdapter(c1);
                 ad.Fill(table);
             }
-            return table.Rows[0]["Роль"].ToString();
+            return table.Rows[0]["Role"].ToString();
         }
         public string ChangePass(string Login, string old_pass, string new_pass) {
             int id_tmp = -1 ;
             DataTable table = GetProfiles();//Получение всех профилей пользователей
             foreach (DataRow row in table.Rows)
             {
-                if (Login == (string)row["Логин"] && old_pass == (string)row["Пароль"])
+                if (Login == (string)row["Login"] && old_pass == (string)row["Password"])
                 {
                     id_tmp = (int)row["Id"];
                 }
@@ -104,72 +116,9 @@ namespace DataLayer
                 SqlDataAdapter ad = new SqlDataAdapter(c1);
                 ad.Fill(table);
             }
-            return table.Rows[0]["Статус"].ToString();
+            return table.Rows[0]["Status"].ToString();
         }
-        public string EditHtmlListSkill(int Id)
-        {
-            string str = "</br>";
-            int j = 0;
-            int m = 0;
-            for (int i = 0; i < GetListTypeSkills().Count; i++)
-            {
-                str += "<h4>" + GetListTypeSkills()[i] + "</h4><table>";
-                foreach (Skills s in GetListSkills())
-                {
-                    if (s.Type == GetListTypeSkills()[i])
-                    {
-                        int tmp = str.Length;
-                        foreach (Skills c in GetSkillsUser(Id))
-                        {
-                            if (c.Name == s.Name && s.Type == c.Type)
-                            {
-                                str += "<tr><td class=\"Added\">" + s.Name + " (Навык добавлен)<form></form><form method=\"POST\" Action=\"\"><input class=\"Del\" type=\"submit\" value=\"Удалить навсегда и для всех аккаунтов\"/><input name=\"DeleteName\" type=\"hidden\" value=\"" + s.Name + "\"/><input name=\"DeleteNameType\" type=\"hidden\" value=\"" + s.Type + "\"/></form></td></tr>";
-                                j++;
-                            }
-                        }
-                        if (str.Length == tmp)
-                        {
-                            str += "<tr><td>" + s.Name + "<form></form><form method=\"POST\" Action=\"\"><input class=\"Add\"  type=\"submit\" value=\"Удалить навсегда и для всех аккаунтов\"/><input name=\"DeleteName\" type=\"hidden\" value=\"" + s.Name + "\"/><input name=\"DeleteNameType\" type=\"hidden\" value=\"" + s.Type + "\"/></form></td></tr>";
-                            m++;
-                        }
-                    }
-                }
-                str += "</table>";
-            }
-            return str;
-        }
-        public string HtmlListSkill(int Id)
-        {
-            string str = "</br>";
-            int j = 0;
-            int m = 0;
-            for (int i = 0; i < GetListTypeSkills().Count; i++)
-            {
-                str += "<h4>" + GetListTypeSkills()[i] + "</h4><table>";
-                foreach (Skills s in GetListSkills())
-                {
-                    if (s.Type == GetListTypeSkills()[i])
-                    {
-                        int tmp = str.Length;
-                        foreach (Skills c in GetSkillsUser(Id))
-                        {
-                            if (c.Name == s.Name && s.Type == c.Type)
-                            {
-                                str += "<tr><td class=\"Added\">" + s.Name + " (Навык добавлен)<form></form><form method=\"POST\" Action=\"\"><input class=\"Delete\" type=\"submit\" value=\"Удалить\"/><input name=\"Del\" type=\"hidden\" value=\"" + s.Name + "\"/><input name=\"Type\" type=\"hidden\" value=\"" + s.Type + "\"/></form></td></tr>";
-                                j++;
-                            }
-                        }
-                        if (str.Length == tmp)
-                        {
-                            str += "<tr><td>" + s.Name + "<form></form><form method=\"POST\" Action=\"\"><input class=\"Add\"  type=\"submit\" value=\"Добавить\"/><input name=\"Add\" type=\"hidden\" value=\"" + s.Name + "\"/><input name=\"Type\" type=\"hidden\" value=\"" + s.Type + "\"/></form></td></tr>";
-                            m++;
-                        }
-                    }
-                }
-                str += "</table>";
-            }
-            return str;
-        }
+        
         public string UpdateLogin(int Id, string Login)
         {
             UpdateLoginUser(Id, Login);
@@ -185,7 +134,7 @@ namespace DataLayer
             DataTable table = GetSkills();
             foreach (DataRow row in table.Rows)
             {
-                if (row["Название"].ToString() == name && GetTypeSkill((int)row["Id_Вида"]).Rows[0]["Название"].ToString() == type)
+                if (row["Name"].ToString() == name && GetTypeSkillonID((int)row["Id_Type"]).Rows[0]["Name"].ToString() == type)
                 {
                     InsertSkillUser((int)row["Id"], Id);
                 }
@@ -198,25 +147,25 @@ namespace DataLayer
             {
                 if (Id == (int)row["Id"])
                 {
-                    return row["Логин"].ToString();
+                    return row["Login"].ToString();
                 }
             }
             return "что-то пошло не так";
         }
-        public List<ISkills_Logic> GetSkillsUser(int Id)
+        public List<Skills> GetSkillsUser(int Id)
         {
-            List<ISkills_Logic> l = new List<ISkills_Logic>();
-            DataTable table = GetSkill_Id();//Получение таблицы всех навыков, которые добавили пользователи  + с Id пользователя
+            List<Skills> l = new List<Skills>();
+            DataTable table = GetSkillWithId();//Получение таблицы всех навыков, которые добавили пользователи  + с Id пользователя
             foreach (DataRow row in table.Rows)
             {
-                if (Id == (int)row["Id_пользователя"])// Поиск пользователя по таблице
+                if (Id == (int)row["Id_User"])// Поиск пользователя по таблице
                 {
-                    DataTable table1 = GetSkills((int)row["Id_Навыка"]);// Получение таблицы всех навыков одного пользователя
+                    DataTable table1 = GetSkillsonID((int)row["Id_Skill"]);// Получение таблицы всех навыков одного пользователя
                     foreach (DataRow row1 in table1.Rows)
                     {
-                        ISkills_Logic s = new Skills();
-                        s.Name = (string)row1["Название"];
-                        s.Type = GetTypeSkill((int)row1["Id_Вида"]).Rows[0]["Название"].ToString();//Получение вида навыка черезе DL
+                        Skills s = new Skills();
+                        s.Name = (string)row1["Name"];
+                        s.Type = GetTypeSkillonID((int)row1["Id_Type"]).Rows[0]["Name"].ToString();//Получение вида навыка черезе DL
                         l.Add(s);
                     }
                 }
@@ -228,7 +177,7 @@ namespace DataLayer
             DataTable table = GetProfiles();//Получение всех профилей пользователей
             foreach (DataRow row in table.Rows)
             {
-                if (Login == (string)row["Логин"] && Password == (string)row["Пароль"])
+                if (Login == (string)row["Login"] && Password == (string)row["Password"])
                 {// Поиск по соответствиям
                     return row["Id"].ToString();
                 }
@@ -241,7 +190,7 @@ namespace DataLayer
             DataTable table = GetTypeSkill();
             foreach (DataRow row in table.Rows)
             {
-                string s = row["Название"].ToString();
+                string s = row["Name"].ToString();
                 l.Add(s);
             }
             return l;
@@ -251,21 +200,21 @@ namespace DataLayer
             DataTable table = GetSkills();
             foreach (DataRow row in table.Rows)
             {
-                if (row["Название"].ToString() == name && GetTypeSkill((int)row["Id_Вида"]).Rows[0]["Название"].ToString() == type)
+                if (row["Name"].ToString() == name && GetTypeSkillonID((int)row["Id_Type"]).Rows[0]["Name"].ToString() == type)
                 {
                     DeleteSkillUser((int)row["Id"], Id);
                 }
             }
         }
-        public List<ISkills_Logic> GetListSkills()
+        public List<Skills> GetListSkills()
         {
-            List<ISkills_Logic> l = new List<ISkills_Logic>();
+            List<Skills> l = new List<Skills>();
             DataTable table = GetSkills();
             foreach (DataRow row in table.Rows)
             {
                 Skills s = new Skills();
-                s.Name = (string)row["Название"];
-                s.Type = GetTypeSkill((int)row["Id_Вида"]).Rows[0]["Название"].ToString();
+                s.Name = (string)row["Name"];
+                s.Type = GetTypeSkillonID((int)row["Id_Type"]).Rows[0]["Name"].ToString();
                 l.Add(s);
             }
             return l;
@@ -284,7 +233,7 @@ namespace DataLayer
             }
             return table;
         }
-        public DataTable GetTypeSkill(int Id)
+        public DataTable GetTypeSkillonID(int Id)
         {
             DataTable table = new DataTable();
             using (db = new SqlConnection(str))
@@ -296,7 +245,7 @@ namespace DataLayer
             }
             return table;
         }
-        public DataTable GetSkills(int Id)
+        public DataTable GetSkillsonID(int Id)
         {
             DataTable table = new DataTable();
             using (db = new SqlConnection(str))
@@ -320,7 +269,7 @@ namespace DataLayer
             }
             return table;
         }
-        public DataTable GetSkill_Id()
+        public DataTable GetSkillWithId()
         {
             DataTable table = new DataTable();
             using (db = new SqlConnection(str))
@@ -384,7 +333,7 @@ namespace DataLayer
                 c1.ExecuteNonQuery();
             }
         }
-        public void AddSkill(string name, int Id)
+        public void AddSkillOnID(string name, int Id)
         {
             using(db = new SqlConnection(str))
             {
@@ -395,20 +344,20 @@ namespace DataLayer
                 c1.ExecuteNonQuery();
             }
         }
-        public string AddSkill(string name,string type) {
+        public string AddSkillOnType(string name,string type) {
             DataTable table1 = GetSkills();
             foreach (DataRow row in table1.Rows)
             {
-                if (row["Название"].ToString() == name)
+                if (row["Name"].ToString() == name)
                 {
                     return "Уже есть такой навык";
                 }
             }
             foreach (DataRow row in table1.Rows)
             {
-                if (GetTypeSkill((int)row["Id_Вида"]).Rows[0]["Название"].ToString() == type)
+                if (GetTypeSkillonID((int)row["Id_Type"]).Rows[0]["Name"].ToString() == type)
                 {
-                    AddSkill(name, (int)row["Id_Вида"]);
+                    AddSkillOnID(name, (int)row["Id_Type"]);
                     return "";
                 }
             }
