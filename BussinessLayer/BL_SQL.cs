@@ -10,6 +10,9 @@ namespace BussinessLayer
         public BL_SQL(IDL db) {
             _dal = db;
         }
+        public void UpdateSkillName(string new_name, string name, string type) {
+            _dal.UpdateSkillName(new_name,name,type);
+        }
         public string DeleteAllSkill(string name,string type) {
             return _dal.DeleteAllSkill(name,type);
         }
@@ -59,13 +62,13 @@ namespace BussinessLayer
         public string GetUserLogin(int Id) {
             return _dal.GetUserLogin(Id);
         }
-        public List<ISkills_Logic> GetSkillsUser(int Id){
+        public List<Entites.Skills> GetSkillsUser(int Id){
             return _dal.GetSkillsUser(Id);
         }
         public List<string> GetListTypeSkills(){
             return _dal.GetListTypeSkills();
         }
-        public List<ISkills_Logic> GetListSkills() {
+        public List<Entites.Skills> GetListSkills() {
             return _dal.GetListSkills();
         }
         public void DeleteSkill(string name, string type, int Id){
@@ -76,17 +79,10 @@ namespace BussinessLayer
             {
                 return "Неверные данные";
             }
-            return _dal.AddSkill(name, type);
+            return _dal.AddSkillOnType(name, type);
         }
         public void AddSkillUser(string name, string type,int Id) {
             _dal.AddSkillUser(name, type,Id);
-        }
-        public string EditHtmlListSkill(int Id)
-        {
-            return _dal.EditHtmlListSkill(Id);
-        }
-        public string HtmlListSkill(int Id) {
-            return _dal.HtmlListSkill(Id);
         }
     }
 }
