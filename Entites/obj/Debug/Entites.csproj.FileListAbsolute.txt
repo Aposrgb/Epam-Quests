@@ -1,0 +1,7 @@
+C:\Users\abbos\source\repos\Entites\obj\Debug\Entites.csprojAssemblyReference.cache
+C:\Users\abbos\source\repos\Entites\obj\Debug\Entites.csproj.CoreCompileInputs.cache
+C:\Users\abbos\source\repos\Entites\bin\Debug\Entites.pdb
+C:\Users\abbos\source\repos\Entites\obj\Debug\Entites.pdb
+C:\Users\abbos\source\repos\Entites\bin\Debug\Entites.dll.config
+C:\Users\abbos\source\repos\Entites\bin\Debug\Entites.dll
+C:\Users\abbos\source\repos\Entites\obj\Debug\Entites.dll
